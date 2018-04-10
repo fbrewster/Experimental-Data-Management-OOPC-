@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "baseMeasurement.h"
 
 
 int main()
