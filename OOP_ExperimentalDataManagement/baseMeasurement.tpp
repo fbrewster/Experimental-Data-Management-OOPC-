@@ -10,15 +10,15 @@ template <typename T> measuremnt<T>::measuremnt(const std::string &name, const T
 
 template <typename T> std::string measuremnt<T>::getName() const { return name_; }
 template <typename T> time_t measuremnt<T>::getTime() const { return time_; }
-template <typename T> std::string measuremnt<T>::getTimeString() const {//get timestamp as string
+template <typename T> std::string measuremnt<T>::getTimeString() const {//get time-stamp as string
 	char str[26];
 	ctime_s(str,sizeof(str),&time_); 
 	std::string out{ str };
 	return out;
 }
-template <typename T> bool measuremnt<T>::getMeasBool() const { return (meas_) ? true : false; }
+template <typename T> bool measuremnt<T>::getMeasBool() const { return (meas_==0) ? false : true; }//returns false if meas_=0, true otherwise
 
-template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m) {
+template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m) {//override insertion operator
 	std::string outTime;
 	if (m.time_ == 0) {//if time is epoch, display as not set
 		outTime = "Not Set";
@@ -27,7 +27,7 @@ template <typename T> std::ostream& operator<<(std::ostream& os, const measuremn
 		outTime = m.getTimeString();
 	}
 	os << "Name: " << m.name_ << std::endl//display all info
-		<< "Timestamp: " << outTime
+		<< "Time-stamp: " << outTime
 		<< "Measurement = " << m.meas_ << "+-" << m.measErr_ << std::endl
 		<< "Systematic error = " << m.sysErr_ << std::endl;
 	return os;
