@@ -27,6 +27,9 @@
     <ClInclude Include="baseMeasurement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="measurementTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -38,5 +41,12 @@
     <ClCompile Include="baseMeasurement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="measurementTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="baseMeasurement.tpp" />
+    <None Include="measurementTypes.tpp" />
   </ItemGroup>
 </Project>
