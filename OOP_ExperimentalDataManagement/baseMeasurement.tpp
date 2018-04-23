@@ -21,15 +21,14 @@ template <typename T> void measuremnt<T>::print(std::ostream& os) const { os << 
 
 template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m) {//override insertion operator
 	std::string outTime;
+	os << "Name: " << m.name_ << std::endl << "Time-stamp: ";
 	if (m.time_ == 0) {//if time is epoch, display as not set
-		outTime = "Not Set";
+		os << "Not Set" << std::endl;
 	}
 	else {
-		outTime = m.getTimeString();
+		os << m.getTimeString();
 	}
-	os << "Name: " << m.name_ << std::endl//display all info
-		<< "Time-stamp: " << outTime
-		<< "Measurement = " << m.meas_ << "+-" << m.measErr_ << std::endl
+	os << "Measurement = " << m.meas_ << "+-" << m.measErr_ << std::endl
 		<< "Systematic error = " << m.sysErr_ << std::endl;
 	return os;
 }

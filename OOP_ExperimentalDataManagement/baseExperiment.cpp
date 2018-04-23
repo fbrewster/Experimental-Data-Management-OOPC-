@@ -2,11 +2,8 @@
 #include "baseExperiement.h"
 
 std::ostream& operator<<(std::ostream& os, const experiment& e) {
-	for (auto m : e.measurements_) {
-		for (auto m2 : m) {
-			m2->print(os);
-		}
-		if (&os == &std::cout) { os << std::endl; }
+	for (auto m: e.measurements_) {
+		m->print(os);
 	}
 	return os;
 }
@@ -17,10 +14,19 @@ std::ostream& operator<<(std::ostream& os, const experiment& e) {
 	}
 }*/
 
-void experiment::addCol(const std::vector<std::shared_ptr<Imeasuremnt>> m) { measurements_.push_back(m); }
+void experiment::addMeas(const std::shared_ptr<Imeasuremnt> m) { measurements_.push_back(m); }
 
-std::string experiment::getColName(const std::size_t& c) const {
-	std::vector<std::shared_ptr<Imeasuremnt>> thisCol{ measurements_[c] };
-	return thisCol[0]->getName();
+std::string experiment::getName() const { return measurements_[0]->getName(); }
+
+std::string experiment::toString() const {
+	std::stringstream ss;
+	for (auto m : measurements_) {
+		ss << m->getMeas() << "+-" << m->getMeasErr()
+			<< "(" << m->getSysErr() << "), ";
+	}
+	std::string out{ ss.str() };
+	out.pop_back();
+	out.pop_back();
+	out.push_back('.');
+	return out;
 }
-

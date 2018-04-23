@@ -9,8 +9,8 @@
 	- median of col
 	- range of col
 
-- Experiment 1D or 2D?
-- Convert to smart pointers
+- Experiment 1D or 2D? - 2D?
+- Convert to smart pointers - DONE?
 */
 
 #include "stdafx.h"
@@ -19,20 +19,21 @@
 
 typedef std::vector<std::shared_ptr<Imeasuremnt>> measVec;
 
+
 int main()
 {
 
 	measVec mv;
-	std::shared_ptr<Imeasuremnt> nm1p = new numMeas<double>("nm1", 5, 0.2);
+	std::shared_ptr<Imeasuremnt> nm1p(new numMeas<double>("nm", 5, 0.2));
+	std::shared_ptr<Imeasuremnt> nm2p(new numMeas<double>("nm", 4, 0.3));
 
-	mv.push_back(new numMeas<double>("nm1", 5, 0.2));
-	mv.push_back(new numMeas<double>("nm2", 4, 0.3));
+	mv.push_back(nm1p);
+	mv.push_back(nm2p);
+
 
 	experiment e1(mv);
-	std::cout << e1;
 
-	mv.pop_back();
-	std::cout << "Experiment after pop back" << e1;
-    
+	std::cout << e1.toString() << std::endl;
+
 	return 0;
 }

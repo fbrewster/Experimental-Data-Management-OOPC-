@@ -18,6 +18,9 @@ public:
 	virtual time_t getTime() const = 0;//return timestamps
 	virtual std::string getTimeString() const = 0;//get time stamp as string
 	virtual bool getMeasBool() const = 0;//return meas_ as bool
+	virtual double getMeas() const = 0;
+	virtual double getMeasErr() const = 0;
+	virtual double getSysErr() const = 0;
 };
 
 template <typename T> class measuremnt;//forward declaration of class
