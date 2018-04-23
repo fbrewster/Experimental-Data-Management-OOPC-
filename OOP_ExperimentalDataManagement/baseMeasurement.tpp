@@ -17,6 +17,7 @@ template <typename T> std::string measuremnt<T>::getTimeString() const {//get ti
 	return out;
 }
 template <typename T> bool measuremnt<T>::getMeasBool() const { return (meas_==0) ? false : true; }//returns false if meas_=0, true otherwise
+template <typename T> void measuremnt<T>::print(std::ostream& os) const { os << *this; }
 
 template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m) {//override insertion operator
 	std::string outTime;

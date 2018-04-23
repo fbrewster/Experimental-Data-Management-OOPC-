@@ -16,6 +16,7 @@
 #include <cmath>
 #include <sstream>
 #include <iomanip>
+#include <memory>
 
 
 // TODO: reference additional headers your program requires here

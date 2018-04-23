@@ -44,7 +44,7 @@ public:
 template <typename T> class numMeas : public measuremnt<T> {//template class for storing values of type T
 public:
 	numMeas();
-	numMeas(const std::string &name, const T &meas, const T &measErr, const T &sysErr, const time_t &time = 0);
+	numMeas(const std::string &name, const T &meas, const T &measErr, const T &sysErr = 0, const time_t &time = 0);
 	T getMeas() const;
 	T getMeasErr() const;
 	T getSysErr() const;
