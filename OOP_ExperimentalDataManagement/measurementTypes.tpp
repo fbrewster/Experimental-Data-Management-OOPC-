@@ -10,7 +10,11 @@ template <typename T> numMeas<T>::numMeas() : measuremnt() {}
 template <typename T> numMeas<T>::numMeas(const std::string &name, const T &meas, const T &measErr, const T &sysErr, const time_t &time) :
 	measuremnt<T>(name, meas, measErr, sysErr, time) {}
 
-template <typename T> T numMeas<T>::getMeas() const { return meas_; }
+template <typename T> std::shared_ptr<T> numMeas<T>::getMeas() const {
+	std::shared_ptr<T> out(new T);
+	out = meas_;
+	return out;
+}
 template <typename T> T numMeas<T>::getMeasErr() const { return measErr_; }
 template <typename T> T numMeas<T>::getSysErr() const { return sysErr_; }
 
@@ -49,4 +53,5 @@ template <typename T> numMeas<T> numMeas<T>::operator/(const numMeas<T>& m) cons
 	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
 	return out;
 }
+
 //--------

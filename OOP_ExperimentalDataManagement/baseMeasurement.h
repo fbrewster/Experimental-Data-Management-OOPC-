@@ -10,6 +10,8 @@ Define an abstract base class for the storage of an experimental measurement, it
 
 #include "stdafx.h"//precompiled headers
 
+template <typename T> class measuremnt;//forward declaration of class
+
 class Imeasuremnt {
 public:
 	virtual std::string getName() const = 0;
@@ -18,12 +20,13 @@ public:
 	virtual time_t getTime() const = 0;//return timestamps
 	virtual std::string getTimeString() const = 0;//get time stamp as string
 	virtual bool getMeasBool() const = 0;//return meas_ as bool
-	virtual double getMeas() const = 0;
+	virtual void getMeas() const = 0;
 	virtual double getMeasErr() const = 0;
 	virtual double getSysErr() const = 0;
+	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
 };
 
-template <typename T> class measuremnt;//forward declaration of class
+
 template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m);//forward declaration of friend function
 
 template <typename T> class measuremnt: public Imeasuremnt {//abstract template base class for storing experimental measurements
@@ -45,6 +48,7 @@ public:
 	virtual bool getMeasBool() const;//return meas_ as bool
 	//virtual measuremnt<T> operator+(const measuremnt<T>* m) const = 0;
 	void print(std::ostream& os) const;
+	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
 };
 
 #include "baseMeasurement.tpp"//Definitions of member functions

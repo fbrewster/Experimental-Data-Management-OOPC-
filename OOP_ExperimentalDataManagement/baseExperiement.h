@@ -14,7 +14,8 @@ public:
 	void addMeas(const std::shared_ptr<Imeasuremnt>);
 	std::string getName() const;
 	std::string toString() const;
-	
+	//std::shared_ptr<Imeasuremnt> mean() const;
+	//std::shared_ptr<Imeasuremnt> median() const;
 };
 
 #endif // !BASE_EXPERIMENT

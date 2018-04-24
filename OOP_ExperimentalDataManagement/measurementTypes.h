@@ -52,6 +52,7 @@ public:
 	numMeas<T> operator-(const numMeas<T>&) const;//override subtraction
 	numMeas<T> operator*(const numMeas<T>&) const;//override multiplication
 	numMeas<T> operator/(const numMeas<T>&) const;//override division
+	void operator+=(const numMeas<T>&);
 };
 
 #include "measurementTypes.tpp"//Defines member functions of numMeas<T>

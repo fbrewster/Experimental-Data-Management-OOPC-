@@ -30,3 +30,10 @@ std::string experiment::toString() const {
 	out.push_back('.');
 	return out;
 }
+
+/*std::shared_ptr<Imeasuremnt> experiment::mean() const {
+	std::shared_ptr<Imeasuremnt> tot;
+	for (auto m : measurements_) {
+		tot = tot + m;
+	}
+}*/

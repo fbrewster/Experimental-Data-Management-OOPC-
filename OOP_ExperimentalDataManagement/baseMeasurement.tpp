@@ -34,6 +34,11 @@ template <typename T> std::ostream& operator<<(std::ostream& os, const measuremn
 }
 
 
+/*template <typename T> void measuremnt<T>::operator+=(const numM& m) {
+	*this = *this + m;
+}*/
+
+
 //--------------Obsolete--------------
 
 //template <typename T> measuremnt<T>::~measuremnt() {}

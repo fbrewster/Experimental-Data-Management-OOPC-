@@ -4,13 +4,13 @@
 /*TODO: 
 - Implement UI
 - Experiment class member functions
-	- Delete col
-	- mean of col
-	- median of col
-	- range of col
+	- Delete entry	
+	- mean of experiment
+	- median of experiment
+	- range of experiment
 
-- Experiment 1D or 2D? - 2D?
-- Convert to smart pointers - DONE?
+- Experiment 1D or 2D? - 2D? No 1D? (23/4)
+- Convert to smart pointers - DONE? (22/4)
 */
 
 #include "stdafx.h"
