@@ -34,12 +34,13 @@ std::ostream& operator<<(std::ostream& os, const dateMeas& d) {//override insert
 	return os;
 }
 
-dateMeas dateMeas::operator+(const dateMeas& m) const {//override addition with error propagation
-	std::string outName{ m.name_ + "+" + name_ };
-	time_t outTime = time_ + m.time_;
-	double outMeasErr{ sqrt(pow(measErr_,2) + pow(m.measErr_,2)) };
-	double outSysErr{ sysErr_ + m.sysErr_ };
-	dateMeas out(outName, outTime, outMeasErr, outSysErr);
+std::shared_ptr<measuremnt<double>> dateMeas::operator+(const std::shared_ptr<measuremnt<double>> m) const {//override addition with error propagation
+	std::string outName{ m->getName() + "+" + name_ };
+	time_t outTime = time_ + m->getTime();
+	double outMeasErr{ sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2)) };
+	double outSysErr{ sysErr_ + m->getSysErr() };
+	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, outTime, outMeasErr, outSysErr));
+	//dateMeas out(outName, outTime, outMeasErr, outSysErr);
 	return out;
 }
 

@@ -10,20 +10,17 @@ template <typename T> numMeas<T>::numMeas() : measuremnt() {}
 template <typename T> numMeas<T>::numMeas(const std::string &name, const T &meas, const T &measErr, const T &sysErr, const time_t &time) :
 	measuremnt<T>(name, meas, measErr, sysErr, time) {}
 
-template <typename T> std::shared_ptr<T> numMeas<T>::getMeas() const {
-	std::shared_ptr<T> out(new T);
-	out = meas_;
-	return out;
-}
+template <typename T> T numMeas<T>::getMeas() const { return meas_; }
 template <typename T> T numMeas<T>::getMeasErr() const { return measErr_; }
 template <typename T> T numMeas<T>::getSysErr() const { return sysErr_; }
 
-template <typename T> numMeas<T> numMeas<T>::operator+(const numMeas<T>& m) const {//override addition with error propagation
-	std::string outName{ m.name_ + "+" + name_ };
-	T outMeas{ m.meas_ + meas_ };
-	T outMeasErr{ sqrt(pow(measErr_,2) + pow(m.measErr_,2)) };
-	T outSysErr{ sysErr_ + m.sysErr_ };
-	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
+template <typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator+(const std::shared_ptr<measuremnt<T>> m) const {//override addition with error propagation
+	std::string outName{ m->getName() + "+" + name_ };
+	T outMeas{ m->getMeas() + meas_ };
+	T outMeasErr{ sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2)) };
+	T outSysErr{ sysErr_ + m->getSysErr() };
+	std::shared_ptr<measuremnt<T>> out(new numMeas(outName, outMeas, outMeasErr, outSysErr, 0));
+	//numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
 	return out;
 }
 
@@ -51,6 +48,15 @@ template <typename T> numMeas<T> numMeas<T>::operator/(const numMeas<T>& m) cons
 	T outMeasErr{ sqrt(pow(measErr_ / meas_,2) + pow(m.measErr_ / m.meas_,2)) * outMeas };
 	T outSysErr{ (m.meas_*measErr_ - meas_*m.measErr_) / (m.meas_*(m.meas_ + m.measErr_)) };
 	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
+	return out;
+}
+
+template<typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const double& d) const {
+	//std::string outName{ name_ + "/" + d };
+	T outMeas{ meas_ / d };
+	T outMeasErr{ measErr_ / d };
+	T outSysErr{ sysErr_ / d };
+	std::shared_ptr<measuremnt<T>> out(new numMeas<T>("shit", outMeas, outMeasErr, outSysErr, 0));
 	return out;
 }
 

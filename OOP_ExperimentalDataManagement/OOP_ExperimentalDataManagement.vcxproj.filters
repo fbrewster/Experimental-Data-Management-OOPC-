@@ -30,7 +30,7 @@
     <ClInclude Include="measurementTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="baseExperiement.h">
+    <ClInclude Include="baseExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,5 +54,6 @@
   <ItemGroup>
     <None Include="baseMeasurement.tpp" />
     <None Include="measurementTypes.tpp" />
+    <None Include="baseExperiment.tpp" />
   </ItemGroup>
 </Project>

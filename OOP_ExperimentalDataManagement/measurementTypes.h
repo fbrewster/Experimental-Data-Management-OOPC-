@@ -25,7 +25,11 @@ public:
 	double getMeas() const;
 	double getMeasErr() const;
 	double getSysErr() const;
-	dateMeas operator+(const dateMeas&) const;//override addition
+	std::shared_ptr<measuremnt<double>> operator+(const std::shared_ptr<measuremnt<double>>) const;//override addition
+	std::shared_ptr<measuremnt<double>> operator/(const double&) const{
+		std::shared_ptr<measuremnt<double>> fuck(new dateMeas);
+		return fuck;
+	}
 	dateMeas operator-(const dateMeas&) const;//override subtraction
 };
 
@@ -38,7 +42,6 @@ public:
 	//bool getMeasBool() const;
 	double getMeasErr() const;
 	double getSysErr() const { return 0; }
-	//boolMeas operator=(const measuremnt& m);
 };
 
 template <typename T> class numMeas : public measuremnt<T> {//template class for storing values of type T
@@ -48,11 +51,11 @@ public:
 	T getMeas() const;
 	T getMeasErr() const;
 	T getSysErr() const;
-	numMeas<T> operator+(const numMeas<T>&) const;//override addition
+	std::shared_ptr<measuremnt<T>> operator+(const std::shared_ptr<measuremnt<T>>) const;//override addition
 	numMeas<T> operator-(const numMeas<T>&) const;//override subtraction
 	numMeas<T> operator*(const numMeas<T>&) const;//override multiplication
 	numMeas<T> operator/(const numMeas<T>&) const;//override division
-	void operator+=(const numMeas<T>&);
+	std::shared_ptr<measuremnt<T>> operator/(const double&) const;
 };
 
 #include "measurementTypes.tpp"//Defines member functions of numMeas<T>

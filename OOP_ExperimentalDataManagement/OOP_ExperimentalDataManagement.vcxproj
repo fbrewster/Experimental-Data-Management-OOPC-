@@ -151,7 +151,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="baseExperiement.h" />
+    <ClInclude Include="baseExperiment.h" />
     <ClInclude Include="baseMeasurement.h" />
     <ClInclude Include="measurementTypes.h" />
     <ClInclude Include="stdafx.h" />
@@ -170,6 +170,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="baseExperiment.tpp" />
     <None Include="baseMeasurement.tpp" />
     <None Include="measurementTypes.tpp" />
   </ItemGroup>

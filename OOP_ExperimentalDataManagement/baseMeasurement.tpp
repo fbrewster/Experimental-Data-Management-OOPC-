@@ -33,6 +33,13 @@ template <typename T> std::ostream& operator<<(std::ostream& os, const measuremn
 	return os;
 }
 
+/*template<typename T> std::shared_ptr<measuremnt<T>> measeurmnt<T>::operator/(const double d) const {
+	T outMeas{ meas_ / d };
+	T outMeasErr{ measErr_ / d };
+	T outSysErr{ sysErr_ / d };
+	std::shared_ptr<measuremnt<T>> out
+}*/
+
 
 /*template <typename T> void measuremnt<T>::operator+=(const numM& m) {
 	*this = *this + m;
