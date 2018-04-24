@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "baseExperiment.h"
 
+
+//---------OBSOLETE---------
+
 /*std::ostream& operator<<(std::ostream& os, const experiment& e) {
 	for (auto m: e.measurements_) {
 		m->print(os);

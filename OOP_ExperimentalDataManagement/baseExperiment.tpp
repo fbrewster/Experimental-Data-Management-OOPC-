@@ -28,13 +28,48 @@ template<typename T> std::string experiment<T>::toString() const {
 	return out;
 }
 
+template<typename T> void experiment<T>::removeEntry(const size_t& n) { measurements_.erase(measurements_.begin() + (n - 1)); }
+
 template<typename T> std::shared_ptr<measuremnt<T>> experiment<T>::mean() const {
 	bool first{ true };
-	std::shared_ptr<measuremnt<T>> out(measurements_[0]);
+	std::shared_ptr<measuremnt<T>> out(measurements_[0]);//Get correct memory allocation
 	for (auto m : measurements_) {
-		if (!first) { out = *out + m; }
+		if (!first) { out = *out + m; }//first entry already included
 		first = false;
 	}
 	out = *out / measurements_.size();
 	return out;
+}
+
+template<typename T> std::shared_ptr<measuremnt<T>> experiment<T>::median() const {
+	const size_t len{ measurements_.size() };
+	std::shared_ptr<measuremnt<T>> midMeas;
+	if (len % 2 == 0) { 
+		midMeas = measurements_[len / 2];
+	}
+	else {
+		size_t midIndex{ len / 2 };
+		midMeas = (measurements_[midMeas - 0.5] + measurements_[midMeas + 0.5]) / 2;
+	}
+	return midMeas;
+}
+
+template<typename T> std::shared_ptr<measuremnt<T>> experiment<T>::max() const {
+	std::shared_ptr<measuremnt<T>> max(measurements_[0]);
+	for (auto m : measurements_) {
+		if (m->getMeas() > max->getMeas()) {
+			max = m;
+		}
+	}
+	return max;
+}
+
+template<typename T> std::shared_ptr<measuremnt<T>> experiment<T>::min() const {
+	std::shared_ptr<measuremnt<T>> min(measurements_[0]);
+	for (auto m : measurements_) {
+		if (m->getMeas() < min->getMeas()) {
+			min = m;
+		}
+	}
+	return min;
 }

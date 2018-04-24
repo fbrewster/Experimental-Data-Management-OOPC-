@@ -4,9 +4,9 @@
 /*TODO: 
 - Implement UI
 - Experiment class member functions
-	- Delete entry	
-	- mean of experiment
-	- median of experiment
+	- Delete entry - done (24/4)
+	- mean of experiment - done (24/4)
+	- median of experiment - done errors might need improving (24/4)
 	- range of experiment
 
 - Experiment 1D or 2D? - 2D? No 1D? (23/4)
@@ -35,7 +35,11 @@ int main()
 
 	std::shared_ptr<measuremnt<double>> mean(e1.mean());
 
-	std::cout << e1.toString() << std::endl << *mean << std::endl;
+	std::cout << e1.toString() << std::endl;
+
+	e1.removeEntry(1);
+
+	std::cout << e1.toString();
 
 	return 0;
 }

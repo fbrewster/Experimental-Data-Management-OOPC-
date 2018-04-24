@@ -24,39 +24,40 @@ template <typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator+(const
 	return out;
 }
 
-template <typename T> numMeas<T> numMeas<T>::operator-(const numMeas<T>& m) const {//override subtraction with error propagation
-	std::string outName{ name_ + "-" + m.name_ };
-	T outMeas{ meas_ - m.meas_ };
-	T outMeasErr{ sqrt(pow(measErr_,2) + pow(m.measErr_,2)) };
-	T outSysErr{ sysErr_ - m.sysErr_ };
-	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
+template <typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator-(const std::shared_ptr<measuremnt<T>> m) const {//override subtraction with error propagation
+	std::string outName{ name_ + "-" + m->getName() };
+	T outMeas{ meas_ - m->getMeas() };
+	T outMeasErr{ sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2)) };
+	T outSysErr{ sysErr_ - m->getSysErr() };
+	std::shared_ptr<measuremnt<T>> out(new numMeas(outName, outMeas, outMeasErr, outSysErr, 0));
 	return out;
 }
 
-template <typename T> numMeas<T> numMeas<T>::operator*(const numMeas<T>& m) const {//override multiplication with error propagation
-	std::string outName{ name_ + "*" + m.name_ };
-	T outMeas{ meas_*m.meas_ };
-	T outMeasErr{ sqrt(pow(measErr_/meas_,2) + pow(m.measErr_/m.meas_,2)) * outMeas };
-	T outSysErr{ meas_*m.measErr_ + m.meas_*measErr_ + m.measErr_*measErr_ };
-	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
+template <typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator*(const std::shared_ptr<measuremnt<T>> m) const {//override multiplication with error propagation
+	std::string outName{ name_ + "*" + m->getName() };
+	T outMeas{ meas_*m->getMeas() };
+	T outMeasErr{ sqrt(pow(measErr_/meas_,2) + pow(m->getMeasErr()/m->getMeas(),2)) * outMeas };
+	T outSysErr{ meas_*m->getMeasErr() + m->getMeas()*measErr_ + m->getMeasErr()*measErr_ };
+	std::shared_ptr<measuremnt<T>> out(new numMeas(outName, outMeas, outMeasErr, outSysErr, 0));
 	return out;
 }
 
-template <typename T> numMeas<T> numMeas<T>::operator/(const numMeas<T>& m) const {//override division with error propagation
-	std::string outName{ name_ + "/" + m.name_ };
-	T outMeas{ meas_/m.meas_ };
-	T outMeasErr{ sqrt(pow(measErr_ / meas_,2) + pow(m.measErr_ / m.meas_,2)) * outMeas };
-	T outSysErr{ (m.meas_*measErr_ - meas_*m.measErr_) / (m.meas_*(m.meas_ + m.measErr_)) };
-	numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
+template <typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const std::shared_ptr<measuremnt<T>> m) const {//override division with error propagation
+	std::string outName{ name_ + "/" + m->getName() };
+	T outMeas{ meas_/m->getMeas() };
+	T outMeasErr{ sqrt(pow(measErr_ / meas_,2) + pow(m->getMeasErr() / m->getMeas(),2)) * outMeas };
+	T outSysErr{ (m->getMeas()*measErr_ - meas_*(m->getMeasErr())) / (m->getMeas()*(m->getMeas() + m->getMeasErr())) };
+	std::shared_ptr<measuremnt<T>> out(new numMeas(outName, outMeas, outMeasErr, outSysErr, 0));
 	return out;
 }
 
 template<typename T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const double& d) const {
-	//std::string outName{ name_ + "/" + d };
+	std::ostringstream outNameSS;
+	outNameSS << name_ << "/" << d;
 	T outMeas{ meas_ / d };
 	T outMeasErr{ measErr_ / d };
 	T outSysErr{ sysErr_ / d };
-	std::shared_ptr<measuremnt<T>> out(new numMeas<T>("shit", outMeas, outMeasErr, outSysErr, 0));
+	std::shared_ptr<measuremnt<T>> out(new numMeas<T>(outNameSS.str(), outMeas, outMeasErr, outSysErr, 0));
 	return out;
 }
 

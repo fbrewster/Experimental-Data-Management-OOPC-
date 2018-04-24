@@ -40,16 +40,47 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator+(const std::shared_ptr<me
 	double outMeasErr{ sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2)) };
 	double outSysErr{ sysErr_ + m->getSysErr() };
 	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, outTime, outMeasErr, outSysErr));
-	//dateMeas out(outName, outTime, outMeasErr, outSysErr);
 	return out;
 }
 
-dateMeas dateMeas::operator-(const dateMeas& m) const {//override subtraction with error propagation
-	std::string outName{ name_ + "-" + m.name_ };
-	time_t outTime = time_ - m.time_;
-	double outMeasErr{ sqrt(pow(measErr_,2) + pow(m.measErr_,2)) };
-	double outSysErr{ sysErr_ - m.sysErr_ };
-	dateMeas out(outName, outTime, outMeasErr, outSysErr);
+std::shared_ptr<measuremnt<double>> dateMeas::operator-(const std::shared_ptr<measuremnt<double>> m) const {//override subtraction with error propagation
+	std::string outName{ name_ + "-" + m->getName() };
+	time_t outTime = time_ - m->getTime();
+	double outMeasErr{ sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2)) };
+	double outSysErr{ sysErr_ - m->getSysErr() };
+	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, outTime, outMeasErr, outSysErr));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> dateMeas::operator*(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ name_ + "*" + m->getName() };
+	time_t outTime{ time_*m->getTime() };
+	double outMeas{ difftime(outTime,0) };
+	double outMeasErr{ sqrt(pow(measErr_ / meas_,2) + pow(m->getMeasErr() / m->getMeas(),2)) * outMeas };
+	double outSysErr{ meas_*m->getMeasErr() + m->getMeas()*measErr_ + m->getMeasErr()*measErr_ };
+	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, outTime, outMeasErr, outSysErr));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> dateMeas::operator/(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ name_ + "/" + m->getName() };
+	time_t outTime{ time_ / m->getTime() };
+	double outMeas{ difftime(outTime,0) };
+	double outMeasErr{ sqrt(pow(measErr_ / meas_,2) + pow(m->getMeasErr() / m->getMeas(),2)) * outMeas };
+	double outSysErr{ (m->getMeas()*measErr_ - meas_*(m->getMeasErr())) / (m->getMeas()*(m->getMeas() + m->getMeasErr())) };
+	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, outTime, outMeasErr, outSysErr));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {
+	std::stringstream outNameSS;
+	outNameSS << name_ << "/" << d;
+	std::string outName{ outNameSS.str() };
+	double outMeas{ meas_ / d };
+	//time_t outTime(outMeas);
+	double outMeasErr{ measErr_ / d };
+	double outSysErr{ sysErr_ / d };
+	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, (time_t)(outMeas), outMeasErr, outSysErr));
 	return out;
 }
 //--------

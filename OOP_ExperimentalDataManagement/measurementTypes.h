@@ -26,11 +26,10 @@ public:
 	double getMeasErr() const;
 	double getSysErr() const;
 	std::shared_ptr<measuremnt<double>> operator+(const std::shared_ptr<measuremnt<double>>) const;//override addition
-	std::shared_ptr<measuremnt<double>> operator/(const double&) const{
-		std::shared_ptr<measuremnt<double>> fuck(new dateMeas);
-		return fuck;
-	}
-	dateMeas operator-(const dateMeas&) const;//override subtraction
+	std::shared_ptr<measuremnt<double>> operator-(const std::shared_ptr<measuremnt<double>>) const;//override subtraction
+	std::shared_ptr<measuremnt<double>> operator*(const std::shared_ptr<measuremnt<double>>) const;
+	std::shared_ptr<measuremnt<double>> operator/(const std::shared_ptr<measuremnt<double>>) const;
+	std::shared_ptr<measuremnt<double>> operator/(const double&) const;
 };
 
 class boolMeas : public measuremnt<double> {//class for storing boolean measurements
@@ -52,9 +51,9 @@ public:
 	T getMeasErr() const;
 	T getSysErr() const;
 	std::shared_ptr<measuremnt<T>> operator+(const std::shared_ptr<measuremnt<T>>) const;//override addition
-	numMeas<T> operator-(const numMeas<T>&) const;//override subtraction
-	numMeas<T> operator*(const numMeas<T>&) const;//override multiplication
-	numMeas<T> operator/(const numMeas<T>&) const;//override division
+	std::shared_ptr<measuremnt<T>> operator-(const std::shared_ptr<measuremnt<T>>) const;//override subtraction
+	std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const;//override multiplication
+	std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const;//override division
 	std::shared_ptr<measuremnt<T>> operator/(const double&) const;
 };
 

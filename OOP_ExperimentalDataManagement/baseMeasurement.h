@@ -10,8 +10,6 @@ Define an abstract base class for the storage of an experimental measurement, it
 
 #include "stdafx.h"//precompiled headers
 
-template <typename T> class measuremnt;//forward declaration of class
-
 class Imeasuremnt {
 public:
 	virtual std::string getName() const = 0;
@@ -26,7 +24,7 @@ public:
 	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
 };
 
-
+template <typename T> class measuremnt;//forward declaration of class
 template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m);//forward declaration of friend function
 
 template <typename T> class measuremnt{//abstract template base class for storing experimental measurements
@@ -47,9 +45,11 @@ public:
 	std::string getTimeString() const;//get time stamp as string
 	virtual bool getMeasBool() const;//return meas_ as bool
 	virtual std::shared_ptr<measuremnt<T>> operator+(const std::shared_ptr<measuremnt<T>>) const = 0;
-	void print(std::ostream& os) const;
-	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
+	virtual std::shared_ptr<measuremnt<T>> operator-(const std::shared_ptr<measuremnt<T>>) const = 0;
+	virtual std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const = 0;
+	virtual std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const = 0;
 	virtual std::shared_ptr<measuremnt<T>> operator/(const double&) const = 0;
+	void print(std::ostream& os) const;
 };
 
 #include "baseMeasurement.tpp"//Definitions of member functions
