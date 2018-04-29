@@ -15,10 +15,11 @@ dateMeas::dateMeas(const std::string& name, const time_t& time, const double& me
 	measuremnt(name, difftime(time, 0), measErr, sysErr, time) {}//store as time_t and as seconds since epoch
 
 dateMeas::dateMeas(const std::string& name, const std::string& timeStr, const double& measErr, const double& sysErr) : measuremnt(name, 0, measErr, sysErr, 0) {
-	struct std::tm tm;
+	/*struct std::tm tm;
 	std::istringstream ss(timeStr);
 	ss >> std::get_time(&tm, "%d/%m/%Y-%R");
-	time_ = mktime(&tm);
+	time_ = mktime(&tm);*/
+	time_ = stringToDate(timeStr);
 	meas_ = difftime(time_, 0);
 }
 
@@ -85,6 +86,13 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {
 }
 //--------
 
+time_t stringToDate(const std::string& s) {
+	std::tm tm = { 0 };
+	std::stringstream ss(s);
+	ss >> std::get_time(&tm, "%H:%M:%S %d/%m/%y");
+	return mktime(&tm);
+}
+
 
 //----Boolean Measure----
 boolMeas::boolMeas() : measuremnt() {}
@@ -104,6 +112,45 @@ boolMeas::boolMeas(const std::string& name, const bool& b, const double& measErr
 double boolMeas::getMeas() const { return meas_; }
 //bool boolMeas::getMeasBool() const { return (meas_ == 1) ? true : false; }
 double boolMeas::getMeasErr() const { return measErr_; }
+
+std::shared_ptr<measuremnt<double>> boolMeas::operator+(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ m->getName() + "+" + name_ };
+	time_t outTime = time(0);
+	bool outMeas = this->getMeasBool() || m->getMeasBool();
+	double outMeasErr{ measErr_ + m->getMeasErr() };
+	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
+	return out;
+}//override addition
+
+std::shared_ptr<measuremnt<double>> boolMeas::operator-(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ name_ + "-" + m->getName() };
+	time_t outTime = time(0);
+	double outMeasErr{ measErr_ - m->getMeasErr() };
+	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, false, outMeasErr, outTime));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> boolMeas::operator*(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ m->getName() + "*" + name_ };
+	time_t outTime = time(0);
+	bool outMeas = this->getMeasBool() ^ m->getMeasBool();
+	double outMeasErr{ measErr_ * m->getMeasErr() };
+	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> boolMeas::operator/(const std::shared_ptr<measuremnt<double>> m) const {
+	std::string outName{ m->getName() + "/" + name_ };
+	time_t outTime = time(0);
+	bool outMeas = this->getMeasBool() && m->getMeasBool();
+	double outMeasErr{ measErr_ * m->getMeasErr() };
+	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
+	return out;
+}
+
+std::shared_ptr<measuremnt<double>> boolMeas::operator/(const double& d) const {
+	throw std::invalid_argument(" function boolMeas/double is not defined");
+}
 
 std::ostream& operator<<(std::ostream& os, const boolMeas& b) {//override insertion operator
 	os << "Name: " << b.name_ << std::endl

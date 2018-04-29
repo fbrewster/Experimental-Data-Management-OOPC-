@@ -17,11 +17,11 @@
 	}
 }*/
 
-/*template<typename T> void experiment<T>:addMeas(const std::shared_ptr<measuremnt<T>> m) { measurements_.push_back(m); }
+/*template<class T> void experiment<T>:addMeas(const std::shared_ptr<measuremnt<T>> m) { measurements_.push_back(m); }
 
-template<typename T> std::string experiment<T>::getName() const { return measurements_[0]->getName(); }
+template<class T> std::string experiment<T>::getName() const { return measurements_[0]->getName(); }
 
-template<typename T> std::string experiment<T>::toString() const {
+template<class T> std::string experiment<T>::toString() const {
 	std::stringstream ss;
 	for (auto m : measurements_) {
 		ss << m->getMeas() << "+-" << m->getMeasErr()

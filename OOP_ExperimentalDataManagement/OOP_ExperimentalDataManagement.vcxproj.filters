@@ -33,6 +33,12 @@
     <ClInclude Include="baseExperiment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="validInputChecking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dataLoading.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -50,10 +56,17 @@
     <ClCompile Include="baseExperiment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="validInputChecking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dataLoading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="baseMeasurement.tpp" />
     <None Include="measurementTypes.tpp" />
     <None Include="baseExperiment.tpp" />
+    <None Include="dataLoading.tpp" />
   </ItemGroup>
 </Project>

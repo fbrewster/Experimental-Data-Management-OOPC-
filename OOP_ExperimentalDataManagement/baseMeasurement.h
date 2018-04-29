@@ -24,10 +24,10 @@ public:
 	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
 };
 
-template <typename T> class measuremnt;//forward declaration of class
-template <typename T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m);//forward declaration of friend function
+template <class T> class measuremnt;//forward declaration of class
+template <class T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m);//forward declaration of friend function
 
-template <typename T> class measuremnt{//abstract template base class for storing experimental measurements
+template <class T> class measuremnt{//abstract template base class for storing experimental measurements
 	friend std::ostream& operator<< <>(std::ostream& os, const measuremnt<T>& m);//declare insertion operator as friend
 protected:
 	std::string name_;//name of measurement
