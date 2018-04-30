@@ -3,20 +3,21 @@
 
 /*TODO: 
 - Implement UI
-	- Headers for getting valid input
+	- Headers for getting valid input DONE (29/04)
 	- Output to file DONE (28/4)
 	- Read file DONE (29/4)
-	- Get keyboard input
-	- Get keyboard input in real time
+	- Get keyboard input DONE (30/4)
+	- Get keyboard input in real time DONE (30/4)
 	- Output to console DONE (28/4)
 	- Report to file or console DONE (28/4)
+	- Menu system 
 - Experiment class member functions
 	- Delete entry - done (24/4)
 	- mean of experiment - done (24/4)
 	- median of experiment - done errors might need improving (24/4)
 	- range of experiment - done (24/4)
-	- generate a report on an experiment
-	- linear fit
+	- generate a report on an experiment DONE (29/4)
+	- linear fit v
 
 - Experiment 1D or 2D? - 2D? No 1D? (23/4)
 - Convert to smart pointers - DONE? (22/4)
@@ -27,13 +28,17 @@
 #include "baseExperiment.h"
 #include "validInputChecking.h"
 #include "dataLoading.h"
+#include "printLogo.h"
+#include "useData.h"
 
 typedef std::vector<std::shared_ptr<measuremnt<double>>> measVec;
 
 using namespace std;
 
-extern vector<experiment<double>> Dexperiments;
-static vector<experiment<int>> Iexperiments;
+vector<experiment<double>> Dexperiments;
+//std::shared_ptr<std::vector<experiment<double>>> Dexperiments(new std::vector<experiment<double>>);
+vector<experiment<int>> Iexperiments;
+std::vector<std::tuple<experiment<double>, experiment<int>>> experiments;
 
 int main()
 {
@@ -53,27 +58,31 @@ int main()
 
 	e1.writeToFile("D:\\expTest.csv");*/
 
-	double dummy{ 0 };
-
-	experiment<double> e1(loadFromConsole(dummy,'b'));
-	cout << e1;
+	printLogo();
 
 	cout << "This program can be used to store and manipulate experimental data" << endl;
 
 	bool continueProgram{ true };
 
 	do {
-		cout << "Would you like to load data (l) or use data already stored (s): ";
-		vector<char> validLoadOp;
-		validLoadOp.push_back('l'); validLoadOp.push_back('s');
-		char loadOp{ getValidIn(validLoadOp) };
-		if (loadOp == 'l') {
-			loadDataMenu();
+		try {
+			cout << "Would you like to load data (l), use data already stored (s) or exit (x): ";
+			vector<char> validLoadOp;
+			validLoadOp.push_back('l'); validLoadOp.push_back('s'); validLoadOp.push_back('x');
+			char loadOp{ getValidIn(validLoadOp) };
+
+			if (loadOp == 'x') { return 0; }
+			else if (loadOp == 'l') {
+				loadDataMenu();
+			}
+			else {
+				
+			}
 		}
-		else {
-			cout << "you done a s" << endl;
+		catch (exception& e) {
+			cerr << "Sorry there was an error," << e.what() << "." << endl
+				<< "You will now be returned to the main screen" << endl;
 		}
-		cout << "do something";
 	} while (continueProgram);
 
 	return 0;

@@ -31,6 +31,7 @@ public:
 	experiment() : measurements_() {}
 	experiment(const std::vector<std::shared_ptr<measuremnt<T>>> measurements) : measurements_{ measurements } {}
 	void addMeas(const std::shared_ptr<measuremnt<T>>);
+	void concat(experiment<T>);
 	std::string getName() const;
 	std::string toString() const;
 	void removeEntry(const size_t&);

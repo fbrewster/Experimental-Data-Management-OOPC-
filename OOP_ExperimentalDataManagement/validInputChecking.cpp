@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "measurementTypes.h"
 #include "validInputChecking.h"
 
 char getValidIn(const std::vector<char> validChars) {

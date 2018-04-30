@@ -13,6 +13,12 @@ colNames_.push_back(m[0]->getName());
 
 template<class T> void experiment<T>::addMeas(const std::shared_ptr<measuremnt<T>> m) { measurements_.push_back(m); }
 
+template<class T> void experiment<T>::concat(experiment<T> e) {
+	for (auto m : e.measurements_) {
+		this->addMeas(m);
+	}
+}
+
 template<class T> std::string experiment<T>::getName() const { return measurements_[0]->getName(); }
 
 template<class T> std::string experiment<T>::toString() const {

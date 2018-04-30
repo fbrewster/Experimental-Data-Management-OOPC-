@@ -2,9 +2,6 @@
 #ifndef VALID_IN
 #define VALID_IN
 
-#include "stdafx.h"
-#include "measurementTypes.h"
-
 char getValidIn(const std::vector<char>);//gets one of the chars in the vector from the console
 
 std::string getValidIn(const std::vector<std::string>);//gets one of the strings in the vector from the console

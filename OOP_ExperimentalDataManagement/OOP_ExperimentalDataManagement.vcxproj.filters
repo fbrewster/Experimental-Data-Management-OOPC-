@@ -39,6 +39,15 @@
     <ClInclude Include="dataLoading.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="printLogo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="useData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="getExpType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +69,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dataLoading.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="printLogo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="useData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="getExpType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

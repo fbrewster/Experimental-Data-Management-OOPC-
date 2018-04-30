@@ -154,23 +154,29 @@
     <ClInclude Include="baseExperiment.h" />
     <ClInclude Include="baseMeasurement.h" />
     <ClInclude Include="dataLoading.h" />
+    <ClInclude Include="getExpType.h" />
     <ClInclude Include="measurementTypes.h" />
+    <ClInclude Include="printLogo.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="useData.h" />
     <ClInclude Include="validInputChecking.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="baseExperiment.cpp" />
     <ClCompile Include="baseMeasurement.cpp" />
     <ClCompile Include="dataLoading.cpp" />
+    <ClCompile Include="getExpType.cpp" />
     <ClCompile Include="measurementTypes.cpp" />
     <ClCompile Include="OOPExperimentalDataManagement.cpp" />
+    <ClCompile Include="printLogo.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="useData.cpp" />
     <ClCompile Include="validInputChecking.cpp" />
   </ItemGroup>
   <ItemGroup>
