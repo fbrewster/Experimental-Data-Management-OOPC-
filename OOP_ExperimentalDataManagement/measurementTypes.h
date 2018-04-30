@@ -30,6 +30,7 @@ public:
 	std::shared_ptr<measuremnt<double>> operator*(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const double&) const;
+	void print(std::ostream&) const;
 };
 
 time_t stringToDate(const std::string&);
@@ -48,6 +49,7 @@ public:
 	std::shared_ptr<measuremnt<double>> operator*(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const double&) const;
+	void print(std::ostream& os) const;
 };
 
 template <class T> class numMeas : public measuremnt<T> {//template class for storing values of type T
@@ -62,6 +64,7 @@ public:
 	std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const;//override multiplication
 	std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const;//override division
 	std::shared_ptr<measuremnt<T>> operator/(const double&) const;
+	void print(std::ostream& os) const;
 };
 
 #include "measurementTypes.tpp"//Defines member functions of numMeas<T>

@@ -32,6 +32,9 @@ typedef std::vector<std::shared_ptr<measuremnt<double>>> measVec;
 
 using namespace std;
 
+extern vector<experiment<double>> Dexperiments;
+static vector<experiment<int>> Iexperiments;
+
 int main()
 {
 
@@ -52,7 +55,7 @@ int main()
 
 	double dummy{ 0 };
 
-	experiment<double> e1(loadFromConsole(dummy));
+	experiment<double> e1(loadFromConsole(dummy,'b'));
 	cout << e1;
 
 	cout << "This program can be used to store and manipulate experimental data" << endl;
@@ -65,7 +68,7 @@ int main()
 		validLoadOp.push_back('l'); validLoadOp.push_back('s');
 		char loadOp{ getValidIn(validLoadOp) };
 		if (loadOp == 'l') {
-			cout << "you done a l" << endl;
+			loadDataMenu();
 		}
 		else {
 			cout << "you done a s" << endl;

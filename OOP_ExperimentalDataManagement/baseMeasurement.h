@@ -49,7 +49,7 @@ public:
 	virtual std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const = 0;
 	virtual std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const = 0;
 	virtual std::shared_ptr<measuremnt<T>> operator/(const double&) const = 0;
-	void print(std::ostream& os) const;
+	virtual void print(std::ostream& os) const;
 };
 
 #include "baseMeasurement.tpp"//Definitions of member functions

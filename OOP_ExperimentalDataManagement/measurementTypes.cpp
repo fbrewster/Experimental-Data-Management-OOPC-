@@ -29,7 +29,7 @@ double dateMeas::getSysErr() const { return sysErr_; }
 
 std::ostream& operator<<(std::ostream& os, const dateMeas& d) {//override insertion operator
 	os << "Name: " << d.name_ << std::endl
-		<< "Date: " << d.getTimeString()
+		<< "Date: " << d.getTimeString() << std::endl
 		<< "Date in seconds since epoch = " << d.meas_ << "+-" << d.measErr_ << std::endl
 		<< "Systematic error = " << d.sysErr_ << std::endl;
 	return os;
@@ -84,6 +84,8 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {
 	std::shared_ptr<measuremnt<double>> out(new dateMeas(outName, (time_t)(outMeas), outMeasErr, outSysErr));
 	return out;
 }
+
+void dateMeas::print(std::ostream& os) const { os << *this; }
 //--------
 
 time_t stringToDate(const std::string& s) {
@@ -154,11 +156,13 @@ std::shared_ptr<measuremnt<double>> boolMeas::operator/(const double& d) const {
 
 std::ostream& operator<<(std::ostream& os, const boolMeas& b) {//override insertion operator
 	os << "Name: " << b.name_ << std::endl
-		<< "Time-stamp: " << b.getTimeString()
+		<< "Time-stamp: " << b.getTimeString() << std::endl
 		<< "Measurement = " << b.meas_ << std::endl
 		<< "Uncertainty = " << b.measErr_ * 100 << "%" << std::endl;
 	return os;
 }
+
+void boolMeas::print(std::ostream& os) const { os << *this; }
 
 /*boolMeas boolMeas::operator=(const measuremnt<double>& m) {
 	boolMeas out;

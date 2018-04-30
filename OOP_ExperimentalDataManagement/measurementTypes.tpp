@@ -61,4 +61,6 @@ template<class T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const dou
 	return out;
 }
 
+template<class T> void numMeas<T>::print(std::ostream& os) const { os << *this; }
+
 //--------
