@@ -15,17 +15,13 @@ dateMeas::dateMeas(const std::string& name, const time_t& time, const double& me
 	measuremnt(name, difftime(time, 0), measErr, sysErr, time) {}//store as time_t and as seconds since epoch
 
 dateMeas::dateMeas(const std::string& name, const std::string& timeStr, const double& measErr, const double& sysErr) : measuremnt(name, 0, measErr, sysErr, 0) {
-	/*struct std::tm tm;
-	std::istringstream ss(timeStr);
-	ss >> std::get_time(&tm, "%d/%m/%Y-%R");
-	time_ = mktime(&tm);*/
-	time_ = stringToDate(timeStr);
-	meas_ = difftime(time_, 0);
+	time_ = stringToDate(timeStr);//convert string to time_t
+	meas_ = difftime(time_, 0);//convert time_t to explicit time since epoch
 }
 
-double dateMeas::getMeas() const { return meas_; }
-double dateMeas::getMeasErr() const { return measErr_; }
-double dateMeas::getSysErr() const { return sysErr_; }
+double dateMeas::getMeas() const { return meas_; }//access meas_
+double dateMeas::getMeasErr() const { return measErr_; }//access measErr_
+double dateMeas::getSysErr() const { return sysErr_; }//access sysErr_
 
 std::ostream& operator<<(std::ostream& os, const dateMeas& d) {//override insertion operator
 	os << "Name: " << d.name_ << std::endl
@@ -53,7 +49,7 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator-(const std::shared_ptr<me
 	return out;
 }
 
-std::shared_ptr<measuremnt<double>> dateMeas::operator*(const std::shared_ptr<measuremnt<double>> m) const {
+std::shared_ptr<measuremnt<double>> dateMeas::operator*(const std::shared_ptr<measuremnt<double>> m) const {//override multiplication with error propagation
 	std::string outName{ name_ + "*" + m->getName() };
 	time_t outTime{ time_*m->getTime() };
 	double outMeas{ difftime(outTime,0) };
@@ -63,7 +59,7 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator*(const std::shared_ptr<me
 	return out;
 }
 
-std::shared_ptr<measuremnt<double>> dateMeas::operator/(const std::shared_ptr<measuremnt<double>> m) const {
+std::shared_ptr<measuremnt<double>> dateMeas::operator/(const std::shared_ptr<measuremnt<double>> m) const {//override division with error propagation
 	std::string outName{ name_ + "/" + m->getName() };
 	time_t outTime{ time_ / m->getTime() };
 	double outMeas{ difftime(outTime,0) };
@@ -73,7 +69,7 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator/(const std::shared_ptr<me
 	return out;
 }
 
-std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {
+std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {//override division by constant
 	std::stringstream outNameSS;
 	outNameSS << name_ << "/" << d;
 	std::string outName{ outNameSS.str() };
@@ -88,7 +84,7 @@ std::shared_ptr<measuremnt<double>> dateMeas::operator/(const double& d) const {
 void dateMeas::print(std::ostream& os) const { os << *this; }
 //--------
 
-time_t stringToDate(const std::string& s) {
+time_t stringToDate(const std::string& s) {//convert string to time_t in global format
 	std::tm tm = { 0 };
 	std::stringstream ss(s);
 	ss >> std::get_time(&tm, "%H:%M:%S %d/%m/%y");
@@ -97,22 +93,16 @@ time_t stringToDate(const std::string& s) {
 
 
 //----Boolean Measure----
+//functions have same functionality as dateMeas unless specified
 boolMeas::boolMeas() : measuremnt() {}
 
-boolMeas::boolMeas(const std::string& name, const bool& b, const double& measErr, const time_t& time) : measuremnt(name, 0, 0, 0, time) {
-	if (measErr >= 1 || measErr < 0) {
-		throw std::invalid_argument(" error for a boolMeas should be given as a fraction");
-	}
-	else {
-		measErr_ = measErr;
-	}
+boolMeas::boolMeas(const std::string& name, const bool& b, const double& measErr, const time_t& time) : measuremnt(name, 0, measErr, 0, time) {
 	if (b) {
 		meas_ = 1;
 	}
 }
 
 double boolMeas::getMeas() const { return meas_; }
-//bool boolMeas::getMeasBool() const { return (meas_ == 1) ? true : false; }
 double boolMeas::getMeasErr() const { return measErr_; }
 
 std::shared_ptr<measuremnt<double>> boolMeas::operator+(const std::shared_ptr<measuremnt<double>> m) const {
@@ -122,7 +112,7 @@ std::shared_ptr<measuremnt<double>> boolMeas::operator+(const std::shared_ptr<me
 	double outMeasErr{ measErr_ + m->getMeasErr() };
 	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
 	return out;
-}//override addition
+}
 
 std::shared_ptr<measuremnt<double>> boolMeas::operator-(const std::shared_ptr<measuremnt<double>> m) const {
 	std::string outName{ name_ + "-" + m->getName() };
@@ -143,15 +133,22 @@ std::shared_ptr<measuremnt<double>> boolMeas::operator*(const std::shared_ptr<me
 
 std::shared_ptr<measuremnt<double>> boolMeas::operator/(const std::shared_ptr<measuremnt<double>> m) const {
 	std::string outName{ m->getName() + "/" + name_ };
-	time_t outTime = time(0);
+	time_t outTime(time(0));
 	bool outMeas = this->getMeasBool() && m->getMeasBool();
-	double outMeasErr{ measErr_ * m->getMeasErr() };
+	double outMeasErr{ measErr_ / m->getMeasErr() };
 	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
 	return out;
 }
 
 std::shared_ptr<measuremnt<double>> boolMeas::operator/(const double& d) const {
-	throw std::invalid_argument(" function boolMeas/double is not defined");
+	std::stringstream outNameSS;
+	outNameSS << name_ << "/" << d;
+	std::string outName{ outNameSS.str() };
+	time_t outTime(time(0));
+	double outMeasErr = measErr_ / d;
+	bool outMeas{ (meas_ == 0) ? false : true };
+	std::shared_ptr<measuremnt<double>> out(new boolMeas(outName, outMeas, outMeasErr, outTime));
+	return out;
 }
 
 std::ostream& operator<<(std::ostream& os, const boolMeas& b) {//override insertion operator
@@ -163,14 +160,4 @@ std::ostream& operator<<(std::ostream& os, const boolMeas& b) {//override insert
 }
 
 void boolMeas::print(std::ostream& os) const { os << *this; }
-
-/*boolMeas boolMeas::operator=(const measuremnt<double>& m) {
-	boolMeas out;
-	out.name_ = m.getName();
-	out.meas_ = m.getMeas();
-	out.measErr_ = m.getMeasErr();
-	out.sysErr_ = m.getSysErr();
-	out.time_ = m.getTime();
-	return out;
-}*/
 //--------

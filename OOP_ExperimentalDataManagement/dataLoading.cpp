@@ -15,10 +15,7 @@ int& convertFromString(int& out, const std::string& in) {
 	return out;
 }
 
-//std::vector<experiment<double>> Dexperiments;
-//std::vector<experiment<int>> Iexperiments;
-
- experiment<double> loadFromFile(const std::string& fileName, const double& tplate, const char& type) {//reads in data from a file. tplate is a dummy to template the function, type gives num date or bool
+experiment<double> loadFromFile(const std::string& fileName, const double& tplate, const char& type) {//reads in data from a file. tplate is a dummy to template the function, type gives num date or bool
 	std::ifstream file;
 	file.open(fileName);
 	if (!file) {//check file is open
@@ -48,7 +45,7 @@ int& convertFromString(int& out, const std::string& in) {
 		convertFromString(meas, lineSplit[0]);//convert into meas, overloaded by meas type
 		convertFromString(measErr, lineSplit[1]);
 		convertFromString(sysErr, lineSplit[2]);
-		time_t time{ stringToDate(lineSplit[3]) };
+		const time_t time{ stringToDate(lineSplit[3]) };
 		if (type == 'n') {//make measurements and add to experiment e
 			e.addMeas(std::make_shared<numMeas<double>>(numMeas<double>(name, meas, measErr, sysErr, time)));
 		}
@@ -56,7 +53,7 @@ int& convertFromString(int& out, const std::string& in) {
 			e.addMeas(std::make_shared<dateMeas>(dateMeas(name, time, measErr, sysErr)));
 		}
 		else if (type == 'b' && typeid(tplate) == typeid(double)) {
-			bool bMeas{ (meas == 0) ? false : true };
+			const bool bMeas{ (meas == 0) ? false : true };
 			e.addMeas(std::make_shared<boolMeas>(boolMeas(name, bMeas, measErr, time)));
 		}
 		else {
@@ -97,7 +94,7 @@ experiment<int> loadFromFile(const std::string& fileName, const int& tplate) {//
 		convertFromString(meas, lineSplit[0]);//convert into meas, overloaded by meas type
 		convertFromString(measErr, lineSplit[1]);
 		convertFromString(sysErr, lineSplit[2]);
-		time_t time{ stringToDate(lineSplit[3]) };
+		const time_t time{ stringToDate(lineSplit[3]) };
 		e.addMeas(std::make_shared<numMeas<int>>(numMeas<int>(name, meas, measErr, sysErr, time)));
 	}
 	std::cout << "Data stored!" << std::endl;
@@ -110,14 +107,14 @@ experiment<double> loadFromConsole(const double& tplate, const char& type) {//ge
 	std::string name;
 	experiment<double> e;
 	std::cout << "Enter a name for this experiment: ";//get name
-	std::cin >> name;
+	std::getline(std::cin, name);
 	bool more{ true };
 	do {//keep asking until 'n' given
 		if (type == 'n') {//get measurements, errors and time-stamps
 			std::cout << "Enter the measurement: ";
 			meas = getValidIn(std::numeric_limits<double>::max());
 			std::cout << "Enter the error on this measurement: ";
-			double dummy{ 0 };
+			const double dummy{ 0 };
 			measErr = getValidIn(std::numeric_limits<double>::max(), dummy);
 			std::cout << "Enter the systematic error: ";
 			sysErr = getValidIn(std::numeric_limits<double>::max());
@@ -129,7 +126,7 @@ experiment<double> loadFromConsole(const double& tplate, const char& type) {//ge
 			std::cout << "Enter the time-stamp in the form hour:min:sec day/month/2 digit year: ";
 			getValidIn(time);
 			std::cout << "Enter the error on this measurement in seconds: ";
-			double dummy{ 0 };
+			const double dummy{ 0 };
 			measErr = getValidIn(std::numeric_limits<double>::max(), dummy);
 			std::cout << "Enter the systematic error: ";
 			sysErr = getValidIn(std::numeric_limits<double>::max());
@@ -137,11 +134,11 @@ experiment<double> loadFromConsole(const double& tplate, const char& type) {//ge
 		}
 		else if (type == 'b') {
 			std::cout << "Enter true(1) or false(0): ";
-			int max{ 1 }, min{ 0 };
+			const int max{ 1 }, min{ 0 };
 			meas = getValidIn(max, min);
-			bool bMeas{ (meas == 0) ? false : true };
+			const bool bMeas{ (meas == 0) ? false : true };
 			std::cout << "Enter the percentage certainty on this measurement: ";
-			double maxD{ 1 }, minD{ 0 };
+			const double maxD{ 1 }, minD{ 0 };
 			measErr = getValidIn(maxD, minD);
 			std::cout << "Enter the time-stamp in the form hour:min:sec day/month/2 digit year: ";
 			getValidIn(time);
@@ -150,7 +147,7 @@ experiment<double> loadFromConsole(const double& tplate, const char& type) {//ge
 
 		std::cout << "Would you like to add another? (y/n): ";//get if need to run again
 		std::vector<char> yn; yn.push_back('y'); yn.push_back('n');//valid answers
-		char moreChar{ getValidIn(yn) };
+		const char moreChar{ getValidIn(yn) };
 		if (moreChar == 'n') { more = false; }
 	} while (more);
 	std::cout << "Data stored!" << std::endl;
@@ -163,13 +160,13 @@ experiment<int> loadFromConsole(const int& tplate) {//get data from the console.
 	std::string name;
 	experiment<int> e;
 	std::cout << "Enter a name for this experiment: ";//get name
-	std::cin >> name;
+	std::getline(std::cin, name);
 	bool more{ true };
 	do {//keep asking until 'n' given
 		std::cout << "Enter the measurement: ";
 		meas = getValidIn(std::numeric_limits<int>::max());
 		std::cout << "Enter the error on this measurement: ";
-		int dummy{ 0 };
+		const int dummy{ 0 };
 		measErr = getValidIn(std::numeric_limits<int>::max(), dummy);
 		std::cout << "Enter the systematic error: ";
 		sysErr = getValidIn(std::numeric_limits<int>::max());
@@ -178,7 +175,7 @@ experiment<int> loadFromConsole(const int& tplate) {//get data from the console.
 		e.addMeas(std::make_shared<numMeas<int>>(numMeas<int>(name, meas, measErr, sysErr, time)));
 		std::cout << "Would you like to add another? (y/n): ";//get if need to run again
 		std::vector<char> yn; yn.push_back('y'); yn.push_back('n');//valid answers
-		char moreChar{ getValidIn(yn) };
+		const char moreChar{ getValidIn(yn) };
 		if (moreChar == 'n') { more = false; }
 	} while (more);
 	std::cout << "Data stored!" << std::endl;
@@ -192,29 +189,26 @@ experiment<double> loadRealTime(const double& tplate, const char& type) {//takes
 	std::string name;
 	experiment<double> e;
 	std::cout << "Enter a name for this experiment: ";//get name
-	std::cin >> name;
+	std::getline(std::cin, name);
 	bool more{ true };
 	do {//keep asking until 'n' given
 		if (type == 'n') {//get measurements, errors and time-stamps
 			std::cout << "Enter the measurement: ";
 			meas = getValidIn(std::numeric_limits<double>::max());
-			timer = time(0);
+			timer = time(0);//time now
 			std::cout << "Enter the error on this measurement: ";
-			double dummy{ 0 };
+			const double dummy{ 0 };
 			measErr = getValidIn(std::numeric_limits<double>::max(), dummy);
 			std::cout << "Enter the systematic error: ";
 			sysErr = getValidIn(std::numeric_limits<double>::max());
-			e.addMeas(std::make_shared<numMeas<double>>(numMeas<double>(name, meas, measErr, sysErr, timer)));
+			e.addMeas(std::make_shared<numMeas<double>>(numMeas<double>(name, meas, measErr, sysErr, timer)));//turn it into a shared_ptr
 		}
 		else if (type == 'd') {
-			std::cout << "Press a key to record the time-stamp" << std::endl;
-			//std::string dummyString
-			//std::cin >> dummyString;
-			std::cin.get();
-			system("pause");
+			std::cout << "Press a key to record the time-stamp";
+			std::cin.get();//wait for input
 			timer = time(0);
 			std::cout << "Enter the error on this measurement in seconds: ";
-			double minErr{ 0 };
+			const double minErr{ 0 };
 			measErr = getValidIn(std::numeric_limits<double>::max(), minErr);
 			std::cout << "Enter the systematic error: ";
 			sysErr = getValidIn(std::numeric_limits<double>::max());
@@ -222,19 +216,19 @@ experiment<double> loadRealTime(const double& tplate, const char& type) {//takes
 		}
 		else if (type == 'b') {
 			std::cout << "Enter true(1) or false(0): ";
-			int max{ 1 }, min{ 0 };
+			const int max{ 1 }, min{ 0 };
 			meas = getValidIn(max, min);
 			timer = time(0);;
-			bool bMeas{ (meas == 0) ? false : true };
-			std::cout << "Enter the percentage certainty on this measurement: ";
-			double maxD{ 1 }, minD{ 0 };
+			const bool bMeas{ (meas == 0) ? false : true };
+			std::cout << "Enter the fractional uncertainty on this measurement as a decimal: ";
+			const double maxD{ 1 }, minD{ 0 };
 			measErr = getValidIn(maxD, minD);
 			e.addMeas(std::make_shared<boolMeas>(boolMeas(name, bMeas, measErr, timer)));
 		}
 
 		std::cout << "Would you like to add another? (y/n): ";//get if need to run again
 		std::vector<char> yn; yn.push_back('y'); yn.push_back('n');//valid answers
-		char moreChar{ getValidIn(yn) };
+		const char moreChar{ getValidIn(yn) };
 		if (moreChar == 'n') { more = false; }
 	} while (more);
 	std::cout << "Data stored!" << std::endl;
@@ -248,56 +242,49 @@ experiment<int> loadRealTime(const int& tplate) {//takes data input from the con
 	std::string name;
 	experiment<int> e;
 	std::cout << "Enter a name for this experiment: ";//get name
-	std::cin >> name;
+	std::getline(std::cin, name);
 	bool more{ true };
-	do {//keep asking until 'n' given
+	do {//keep asking until 'n' given. All measuremnt<int> are numMeas
 		std::cout << "Enter the measurement: ";
 		meas = getValidIn(std::numeric_limits<int>::max());
-		timer = time(0);
+		timer = time(0);//time now
 		std::cout << "Enter the error on this measurement: ";
-		int dummy{ 0 };
+		const int dummy{ 0 };
 		measErr = getValidIn(std::numeric_limits<int>::max(), dummy);
 		std::cout << "Enter the systematic error: ";
 		sysErr = getValidIn(std::numeric_limits<int>::max());
-		e.addMeas(std::make_shared<numMeas<int>>(numMeas<int>(name, meas, measErr, sysErr, timer)));
+		e.addMeas(std::make_shared<numMeas<int>>(numMeas<int>(name, meas, measErr, sysErr, timer)));//turn into shared_ptr
 
 		std::cout << "Would you like to add another? (y/n): ";//get if need to run again
 		std::vector<char> yn; yn.push_back('y'); yn.push_back('n');//valid answers
-		char moreChar{ getValidIn(yn) };
+		const char moreChar{ getValidIn(yn) };
 		if (moreChar == 'n') { more = false; }
 	} while (more);
 	std::cout << "Data stored!" << std::endl;
 	return e;
 }
 
-void loadDataMenu() {
-	std::cout << "Would you like to load a numeric(n), date(d) or boolean(b) measure?: ";
-	std::vector<char> validTypes; validTypes.push_back('n'); validTypes.push_back('d'); validTypes.push_back('b');
-	char type = getValidIn(validTypes);
-	int Idummy;
-	double Ddummy;
-	char tplateChar;
-	if (type == 'n') {
-		std::cout << "Would you like an integer(i) or non-integer(d) numeric?: ";
-		std::vector<char> validTplate; validTplate.push_back('i'); validTplate.push_back('d');
-		tplateChar = getValidIn(validTplate);
-	}
-	else { tplateChar = 'd'; }
+void loadDataMenu() {//Menu for adding data to program
+	const std::tuple<char, char> types{ getExpType() };//Get type to load (numMeas<int>, numMeas<double>, dateMeas, boolMeas)
+	const char type{ std::get<0>(types) }, tplateChar{ std::get<1>(types) };
+	const int Idummy{};//dummies for selecting overloaded functions
+	const double Ddummy{};
 	std::cout << "Would you like to load from file(f), console with time-stamps entered manually(m) or console in real time(r)?: ";
 	std::vector<char> validInputTypes; validInputTypes.push_back('f'); validInputTypes.push_back('m'); validInputTypes.push_back('r');
-	char inputType = getValidIn(validInputTypes);
+	const char inputType = getValidIn(validInputTypes);
 	if (inputType == 'f') {
 		std::cout << "Please enter the filename/path: ";
 		std::string fileName;
-		std::cin >> fileName;
-		if (tplateChar == 'i') {
+		std::getline(std::cin, fileName);
+
+		if (tplateChar == 'i') {//select int or double
 			addExperiment(loadFromFile(fileName, Idummy));
 		}
 		else {
 			addExperiment(loadFromFile(fileName, Ddummy, type));
 		}
 	}
-	else if (inputType == 'c') {
+	else if (inputType == 'm') {
 		if (tplateChar == 'i') {
 			addExperiment(loadFromConsole(Idummy));
 		}
@@ -316,45 +303,27 @@ void loadDataMenu() {
 }
 
 void addExperiment(experiment<double> eNew) {
-	bool match{ false };
-	size_t i{ 0 }, matchIndex;
-	for (auto e : experiments) {
-		auto eType{ std::get<experiment<double>>(e) };
-		if (eNew.getName() == eType.getName()) {
-			match = true;
-			matchIndex = i;
-		}
-		i++;
-	}
-	i--;
+	expHolder::iterator it(experiments.find(eNew.getName()));//find experiment with that name
 
-	if (match) {
-		std::get<experiment<double>>(experiments[i]).concat(eNew);
+	if (it!=experiments.end()) {//if found one before getting to the end
+		std::get<0>(std::get<1>(*it)).concat(eNew);//get double part of tuple part of map at it
 	}
-	else {
-		experiment<int> dummyE;
-		experiments.push_back(std::make_tuple<experiment<double>, experiment<int>>(std::move(eNew), std::move(dummyE)));
+	else {//if there isn't a match
+		experiment<int> dummyE;//for other part of tuple
+		std::string name{ eNew.getName() };//get name before moving
+		experiments.insert(std::pair<std::string, std::tuple<experiment<double>, experiment<int>>>(name, std::make_tuple(std::move(eNew), std::move(dummyE))));//move into new experiment tuple with name
 	}
 }
 
-void addExperiment(experiment<int> eNew) {
-	bool match{ false };
-	size_t i{ 0 }, matchIndex;
-	for (auto e : experiments) {
-		auto eType{ std::get<experiment<int>>(e) };
-		if (eNew.getName() == eType.getName()) {
-			match = true;
-			matchIndex = i;
-		}
-		i++;
-	}
-	i--;
+void addExperiment(experiment<int> eNew) {//works same as double version
+	expHolder::iterator it(experiments.find(eNew.getName()));
 
-	if (match) {
-		std::get<experiment<int>>(experiments[i]).concat(eNew);
+	if (it != experiments.end()) {
+		std::get<1>(std::get<1>(*it)).concat(eNew);
 	}
 	else {
 		experiment<double> dummyE;
-		experiments.push_back(std::make_tuple<experiment<double>, experiment<int>>(std::move(dummyE), std::move(eNew)));
+		std::string name{ eNew.getName() };
+		experiments.insert(std::pair<std::string, std::tuple<experiment<double>, experiment<int>>>(name, std::make_tuple<experiment<double>, experiment<int>>(std::move(dummyE), std::move(eNew))));
 	}
 }

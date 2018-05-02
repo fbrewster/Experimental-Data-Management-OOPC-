@@ -41,11 +41,10 @@ public:
 	boolMeas();
 	boolMeas(const std::string& name, const bool& b, const double& measErr = 0, const time_t& time = 0);
 	double getMeas() const;
-	//bool getMeasBool() const;
 	double getMeasErr() const;
 	double getSysErr() const { return 0; }
-	std::shared_ptr<measuremnt<double>> operator+(const std::shared_ptr<measuremnt<double>>) const;//override addition
-	std::shared_ptr<measuremnt<double>> operator-(const std::shared_ptr<measuremnt<double>>) const;//override subtraction
+	std::shared_ptr<measuremnt<double>> operator+(const std::shared_ptr<measuremnt<double>>) const;
+	std::shared_ptr<measuremnt<double>> operator-(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator*(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const std::shared_ptr<measuremnt<double>>) const;
 	std::shared_ptr<measuremnt<double>> operator/(const double&) const;
@@ -59,10 +58,10 @@ public:
 	T getMeas() const;
 	T getMeasErr() const;
 	T getSysErr() const;
-	std::shared_ptr<measuremnt<T>> operator+(const std::shared_ptr<measuremnt<T>>) const;//override addition
-	std::shared_ptr<measuremnt<T>> operator-(const std::shared_ptr<measuremnt<T>>) const;//override subtraction
-	std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const;//override multiplication
-	std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const;//override division
+	std::shared_ptr<measuremnt<T>> operator+(const std::shared_ptr<measuremnt<T>>) const;
+	std::shared_ptr<measuremnt<T>> operator-(const std::shared_ptr<measuremnt<T>>) const;
+	std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const;
+	std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const;
 	std::shared_ptr<measuremnt<T>> operator/(const double&) const;
 	void print(std::ostream& os) const;
 };

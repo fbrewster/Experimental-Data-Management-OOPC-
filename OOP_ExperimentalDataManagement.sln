@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP_ExperimentalDataManagement", "OOP_ExperimentalDataManagement\OOP_ExperimentalDataManagement.vcxproj", "{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OOP_ExperimentalDataManagement", "OOP_ExperimentalDataManagement\OOP_ExperimentalDataManagement.vcxproj", "{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,12 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Debug|x64.ActiveCfg = Debug|x64
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Debug|x64.Build.0 = Debug|x64
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Debug|x86.ActiveCfg = Debug|Win32
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Debug|x86.Build.0 = Debug|Win32
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Release|x64.ActiveCfg = Release|x64
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Release|x64.Build.0 = Release|x64
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Release|x86.ActiveCfg = Release|Win32
-		{D3B63940-6AC3-489B-A2DE-3AD13F0B0C31}.Release|x86.Build.0 = Release|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Debug|x64.ActiveCfg = Debug|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Debug|x86.ActiveCfg = Debug|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Debug|x86.Build.0 = Debug|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Release|x64.ActiveCfg = Release|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Release|x86.ActiveCfg = Release|Win32
+		{B9FD4CBD-2AFB-4DF5-A32A-24F3038C6741}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

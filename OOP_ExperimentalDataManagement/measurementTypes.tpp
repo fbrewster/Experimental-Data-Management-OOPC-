@@ -1,6 +1,6 @@
 /*measurementTypes.tpp
 Frank Brewster
-Defines member functions for template classes in measurementTypes.tpp
+Defines member functions for template classes in measurementTypes.h
 */
 
 
@@ -20,7 +20,6 @@ template <class T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator+(const st
 	T outMeasErr{ (T)(sqrt(pow(measErr_,2) + pow(m->getMeasErr(),2))) };
 	T outSysErr{ sysErr_ + m->getSysErr() };
 	std::shared_ptr<measuremnt<T>> out(new numMeas(outName, outMeas, outMeasErr, outSysErr, 0));
-	//numMeas out(outName, outMeas, outMeasErr, outSysErr, 0);
 	return out;
 }
 
@@ -51,7 +50,7 @@ template <class T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const st
 	return out;
 }
 
-template<class T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const double& d) const {
+template<class T> std::shared_ptr<measuremnt<T>> numMeas<T>::operator/(const double& d) const {//override division by constant
 	std::ostringstream outNameSS;
 	outNameSS << name_ << "/" << d;
 	T outMeas{ (T)(meas_ / d) };

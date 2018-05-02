@@ -10,19 +10,7 @@ Define an abstract base class for the storage of an experimental measurement, it
 
 #include "stdafx.h"//precompiled headers
 
-class Imeasuremnt {
-public:
-	virtual std::string getName() const = 0;
-	virtual void print(std::ostream& os) const = 0;
-	virtual void setName(const std::string& name) = 0;//set name_
-	virtual time_t getTime() const = 0;//return timestamps
-	virtual std::string getTimeString() const = 0;//get time stamp as string
-	virtual bool getMeasBool() const = 0;//return meas_ as bool
-	virtual double getMeas() const = 0;
-	virtual double getMeasErr() const = 0;
-	virtual double getSysErr() const = 0;
-	//virtual void operator+=(std::shared_ptr<Imeasuremnt>) const = 0;
-};
+extern const size_t outPrecision;//forward declare global const
 
 template <class T> class measuremnt;//forward declaration of class
 template <class T> std::ostream& operator<<(std::ostream& os, const measuremnt<T>& m);//forward declaration of friend function
@@ -49,7 +37,7 @@ public:
 	virtual std::shared_ptr<measuremnt<T>> operator*(const std::shared_ptr<measuremnt<T>>) const = 0;
 	virtual std::shared_ptr<measuremnt<T>> operator/(const std::shared_ptr<measuremnt<T>>) const = 0;
 	virtual std::shared_ptr<measuremnt<T>> operator/(const double&) const = 0;
-	virtual void print(std::ostream& os) const;
+	virtual void print(std::ostream& os) const;//interface to insertion
 };
 
 #include "baseMeasurement.tpp"//Definitions of member functions
